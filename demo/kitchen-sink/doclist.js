@@ -66,7 +66,8 @@ function makeHuge(txt) {
 }
 
 var docs = {
-    "docs/javascript.js": {order: 1, name: "JavaScript"},
+    "docs/pmltq.pmltq": {order: 1, name: "PMLTQ"},
+    "docs/javascript.js": {order: 2, name: "JavaScript"},
 
     "docs/latex.tex": {name: "LaTeX", wrapped: true},
     "docs/markdown.md": {name: "Markdown", wrapped: true},

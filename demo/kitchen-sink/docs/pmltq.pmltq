@@ -1,0 +1,48 @@
+# reversed effective dependency on a-layer and t-layer
+# excluding numeric constructions
+
+a [ ] ;
+
+a [ [ ] ] ;
+
+a [ b [ [ [ ] ] ] ] ;
+
+
+a[member content() []];
+
+t-node $n:= [
+  member bridging [
+    informal-type = "CONTRAST",
+    target-node.rf t-node [ functor="ACT" ]
+  ]
+];
+
+a-node $A := [
+  m/tag !~ '^C',
+  child a-node $B := [
+    m/tag !~ '^C'
+  ]
+];
+t-node [
+  a/lex.rf $B,
+  child t-node [ a/lex.rf $A ]
+];
+
+a-node [ 
+  afun = 'AuxV',
+  ancestor a-root $r := [ 
+    + descendant a-node $a := [  ] ] ];
+
+
+t-node $ref1 := [ 
+  parent t-node $ref0 := [ 
+    1+x same-tree-as t-node $ref2 := [ 
+      !ancestor $ref0, 
+      ((order-follows $ref0 and order-precedes $ref1) or (order-follows $ref1 and order-precedes $ref0)) 
+    ] 
+  ] 
+];
+  >> give $ref1.id,$ref0.id sort by $1,$2
+  >> for $r.id,$a.m/form,$a.ord give $1,$2,$3
+  >> give distinct concat($2, ' ' over $1 sort by $3)
+
