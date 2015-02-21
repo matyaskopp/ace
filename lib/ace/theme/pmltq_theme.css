@@ -174,8 +174,15 @@
   color: rgb(0,100,150);
 }
 
-.ace_FUNC {
+.ace_RELATION {
   color: rgb(100,150,0);
+}
+
+.ace_FUNC {
+  color: rgb(150,50,100);
+}
+.ace_PARAMS {
+  color: rgb(250,100,130);
 }
 
 .ace_MEMBER {
