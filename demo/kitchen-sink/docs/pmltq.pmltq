@@ -5,8 +5,9 @@ a [ [ ] ] ;
 a [ b [ [ [ ] ] ] ] ;
 
 a[member content() []];
-t-node $a := [ gram/sempos='v',
-  ! child t-node [ functor in { 'ACT','PAT','ADDR','ORIG','EFF' } ]
+t-node $a := [ 
+    gram/sempos='v',
+    ! child t-node [ functor in { 'ACT','PAT','ADDR','ORIG','EFF' } ]
 ];
 t-node $n:= [
   member bridging [
