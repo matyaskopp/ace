@@ -192,14 +192,25 @@
   color: rgb(80,140,0);
 }
 
-.ace_DEBUG {
+.ace_D {
   background: rgb(255,230,220) !important;
 }
-.ace_DEBUG2 {
+.ace_D2 {
   background: rgb(220,230,255) !important;
 }
-.ace_DEBUG3 {
+.ace_D3 {
   background: rgb(220,255,230) !important;
+}
+.ace_D4 {
+  background: rgb(220,155,230) !important;
+}
+.ace_D5 {
+  background: rgb(220,225,130) !important;
+}
+.ace_ERROR {
+  color:black !important;
+  background: red !important;
+
 }
 
 .ace_OCCURRENCES {
