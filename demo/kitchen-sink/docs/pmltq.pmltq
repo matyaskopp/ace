@@ -9,9 +9,10 @@ a[         member a[2]/.         $x := []];
 a[!        member a/b/c/d              []];
 a[!        member a/[ 5 ]        $x := []];
 a[! 5..10x member content()/.          []];
-a[! 5..10x member a/./.          $x := []];
+a[! 5..10x member []             $x := []];
 
-a[! 5..10x member []                   []];
+a[ x/c =   'a'];
+a[ x/c in  {'a','b'}];
 
 
 t-node $a := [ 
