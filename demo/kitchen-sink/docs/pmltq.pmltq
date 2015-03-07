@@ -4,7 +4,16 @@ a [ ] ;
 a [ [ ] ] ;
 a [ b [ [ [ ] ] ] ] ;
 
-a[member content() []];
+a[         member [2]a/content()       []];
+a[         member a[2]/.         $x := []];
+a[!        member a/b/c/d              []];
+a[!        member a/[ 5 ]        $x := []];
+a[! 5..10x member content()/.          []];
+a[! 5..10x member a/./.          $x := []];
+
+a[! 5..10x member []                   []];
+
+
 t-node $a := [ 
     gram/sempos='v',
     ! child t-node [ functor in { 'ACT','PAT','ADDR','ORIG','EFF' } ]

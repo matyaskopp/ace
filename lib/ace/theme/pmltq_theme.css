@@ -210,7 +210,9 @@
 .ace_ERROR {
   color:black !important;
   background: red !important;
-
+}
+.ace_ERROR1 {
+  background: yellow !important;
 }
 
 .ace_OCCURRENCES {
