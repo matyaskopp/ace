@@ -1,8 +1,9 @@
 # reversed effective dependency on a-layer and t-layer
 # excluding numeric constructions
-a [ ] ;
-a [ [ ] ] ;
-a [ b [ [ [ ] ] ] ] ;
+a [ 
+] ;
+a [ b [ 
+] ] ;
 
 a[         member [2]a/content()       []];
 a[         member a[2]/.         $x := []];
@@ -15,15 +16,17 @@ a[ 1+1=2-1 or 'a' = 'a'];
 a[ x/c =   'a'];
 a[ x/c in  {'a','b'}];
 
+t-node $t:= [ a/lex.rf -> a-node $a:= [ afun='Sb' ], a/aux.rf a-node $x:= [ afun = 'AuxP' ] ];
 
 t-node $a := [ 
+    typeprefix attribute/[5] = 1,
     gram/sempos='v',
     ! child t-node [ functor in { 'ACT','PAT','ADDR','ORIG','EFF' } ]
 ];
 t-node $n:= [
   member bridging [
-    informal-type = "CONTRAST",
-    target-node.rf t-node [ functor="ACT" ]
+    informaltype = "CONTRAST",
+    t-node [ functor="ACT" ]
   ]
 ];
 a-node $A := [
