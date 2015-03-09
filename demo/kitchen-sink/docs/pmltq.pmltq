@@ -23,7 +23,11 @@ a[!        member a/[ 5 ]        $x := []];
 a[! 5..10x member content()/.          []];
 a[! 5..10x member []             $x := []];
 
-a[ 1+1=2-1 or 'a' = 'a'];
+z-node $n := [ child z-node $m := [ *a != b/c + *$n.d/e/f ] ]
+
+a[ 1+1=2-1 or 'a' = 'a' and 1 != 1];
+a[ x/c = 'a' or x/c = 'a' and x/c = 'a'];
+
 a[ x/c =   'a'];
 a[ x/c in  {'a','b'}];
 
