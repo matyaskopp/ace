@@ -214,6 +214,9 @@
   color:black !important;
   background: red !important;
 }
+.ace_OK {
+  background: rgba(240,255,0,0.8) !important;
+}
 .ace_ERROR1 {
   background: yellow !important;
 }

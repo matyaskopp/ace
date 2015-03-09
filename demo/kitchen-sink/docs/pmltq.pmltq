@@ -1,5 +1,16 @@
 # reversed effective dependency on a-layer and t-layer
 # excluding numeric constructions
+@TEST regexRelationTree@ child :: ok
+@TEST regexRelationName@ child -> ok MATCH ARROW (name, not child)
+@TEST regexRelationName@ child-> ok MATCH ARROW (name, not child)
+@TEST regexRelationName@ d/d -> ok
+@TEST regexRelationName@ error $x :=
+@TEST regexRelationName@ ok $x 
+@TEST regexRelationName@ ok name $variable
+@TEST regexRelationName@ ok name [
+
+
+
 a [ 
 ] ;
 a [ b [ 
