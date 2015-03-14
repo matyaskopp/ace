@@ -9,19 +9,83 @@
 @TEST regexRelationName@ ok name $variable
 @TEST regexRelationName@ ok name [
 
+# toplevel_selector
+  t $v := [];
++ t $v := [];
+    $v := [];
++   $v := [];
+  t       [];
++ t       [];
+          [];
++         [];
+
+# optional_nested_selector, nested_selector
+# \?? +? RELATION? type? name_assignment? [ ...
+a [ ? + child t $v := []];
+a [ ? + child t       []];
+a [ ? + child   $v := []];
+a [ ? + child         []];
+a [ ? +       t $v := []];
+a [ ? +       t       []];
+a [ ? +         $v := []];
+a [ ? +               []];
+a [ ?   child t $v := []];
+a [ ?   child t       []];
+a [ ?   child   $v := []];
+a [ ?   child         []];
+a [ ?         t $v := []];
+a [ ?         t       []];
+a [ ?           $v := []];
+a [ ?                 []];
+a [   + child t $v := []];
+a [   + child t       []];
+a [   + child   $v := []];
+a [   + child         []];
+a [   +       t $v := []];
+a [   +       t       []];
+a [   +         $v := []];
+a [   +               []];
+a [     child t $v := []];
+a [     child t       []];
+a [     child   $v := []];
+a [     child         []];
+a [           t $v := []];
+a [           t       []];
+a [             $v := []];
+a [                   []];
+
+# RELATION
+a [ child [], parent [], same-tree-as [], same-document-as []];
+a [ child :: [], parent ::[], same-tree-as :: [], same-document-as :: []];
+a [ sibling [], descendant [], ancestor []];
+a [ sibling :: [], descendant :: [], ancestor :: []];
+a [ sibling{,} [], descendant{-1,} [], ancestor{,-9} []];
+a [ sibling{1,1} :: [], descendant{1,} :: [], ancestor{,9} :: []];
+a [ depth-first-precedes [], depth-first-follows [], order-precedes [], order-follows []];
+a [ depth-first-precedes :: [], depth-first-follows :: [], order-precedes :: [], order-follows :: []];
+a [ depth-first-precedes{1,1} [], depth-first-follows{1,1} [], order-precedes{1,1} [], order-follows{1,1} []];
+a [ depth-first-precedes{1,1} :: [], depth-first-follows{1,1} :: [], order-precedes{1,1} :: [], order-follows{1,1} :: []];
+# /[_a-zA-Z][-.\/_a-zA-Z]*(?=\s*->|\s*\$[[:alpha:]_][[:alnum:]_]*\b(?!\s*:=)|\s+${Treex::PML::Schema::CDATA::Name}\s*(?:\[|\$))/ /\s*(?!::)(->)?/
+a[ a/. -> []];
+a[ a/. $x ];
+a[ a/. -> $x ];
+a[ a/. CDATA_name [ ] ];
+a[ a/. -> CDATA_name [ ] ];
+#a[ a/. CDATA_name $x ];
+#a[ a/. -> CDATA_name $x ];
+# /[_a-zA-Z][-.\/_a-zA-Z]*(?=(?:\{[0-9]*,[0-9]*\})(?:\s*->|\s*\$[[:alpha:]_][[:alnum:]_]*\b(?!\s*:=)|\s+${Treex::PML::Schema::CDATA::Name}\s*(?:\[|\$)))/ <skip:''> '{' <commit> <skip:'\s*(?:[#][^\n]*\s*)*'> (/[0-9]+/)(?) ',' (/[0-9]+/)(?) '}' /\s*(?!::)(->)?/
+
+# member
+a [         member [2]a/content()       []];
+a [         member a[2]/.         $x := []];
+a [!        member a/b/c/d              []];
+a [!        member a/[ 5 ]        $x := []];
+a [! 5..10x member content()/.          []];
+a [! 5..10x member []             $x := []];
 
 
-a [ 
-] ;
-a [ b [ 
-] ] ;
 
-a[         member [2]a/content()       []];
-a[         member a[2]/.         $x := []];
-a[!        member a/b/c/d              []];
-a[!        member a/[ 5 ]        $x := []];
-a[! 5..10x member content()/.          []];
-a[! 5..10x member []             $x := []];
+
 
 z-node $n := [ child z-node $m := [ *a != b/c + *$n.d/e/f ] ];
 
