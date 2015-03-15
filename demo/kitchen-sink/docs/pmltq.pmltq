@@ -95,7 +95,9 @@ a [ ( 1 = 1 or 1 = 1 ) ];
 a [ ( 1 = 1 and 1 = 1 ) ];
 a [ ( 1 = 1 , 1 = 1 ) ];
 #test - predicate
-a [ $a = $$ ]; # var or self
+a [ $a = $$ , $a != $$ ]; # var or self
+a [ 1 in { 1 , 2 , 3 } , 0 ! in { 1 , 2 , 3 } ]; # flat_expression in flat_set_expression
+
 
 
 z-node $n := [ child z-node $m := [ *a != b/c + *$n.d/e/f ] ];
