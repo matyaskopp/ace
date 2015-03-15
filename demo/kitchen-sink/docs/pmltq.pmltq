@@ -88,12 +88,14 @@ a [!        member a/[ 5 ]        $x := []];
 a [! 5..10x member content()/.          []];
 a [! 5..10x member []             $x := []];
 
-# test
+# test (and or ! ,)
 a [ 1 = 1 ]; 
 a [ 1 = 1 or 1 = 1 and ! 1 != 1 ];
 a [ ( 1 = 1 or 1 = 1 ) ];
 a [ ( 1 = 1 and 1 = 1 ) ];
 a [ ( 1 = 1 , 1 = 1 ) ];
+#test - predicate
+a [ $a = $$ ]; # var or self
 
 
 z-node $n := [ child z-node $m := [ *a != b/c + *$n.d/e/f ] ];
