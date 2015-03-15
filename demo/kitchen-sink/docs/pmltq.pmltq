@@ -97,6 +97,8 @@ a [ ( 1 = 1 , 1 = 1 ) ];
 #test - predicate
 a [ $a = $$ , $a != $$ ]; # var or self
 a [ 1 in { 1 , 2 , 3 } , 0 ! in { 1 , 2 , 3 } ]; # flat_expression in flat_set_expression
+#test - predicate - flat_expression - term
+a [ $b , $b ];
 
 
 
