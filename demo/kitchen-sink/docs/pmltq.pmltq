@@ -98,7 +98,20 @@ a [ ( 1 = 1 , 1 = 1 ) ];
 a [ $a = $$ , $a != $$ ]; # var or self
 a [ 1 in { 1 , 2 , 3 } , 0 ! in { 1 , 2 , 3 } ]; # flat_expression in flat_set_expression
 #test - predicate - flat_expression - term
-a [ $b , $b ];
+a [ $b , $b ]; # var_or_self
+a [ 'a' , 1 ]; # literal
+a [ $$. as/eer , $$. typeprefix as/eer ]; # attribute_path
+a [ []/eer , content()/a/./. , [ 1 ]indname/x , indname[ 1 ]/x , a/[ 1 ] ]; # simple_attribute
+a [ typeprefix []/eer , typeprefix content()/a/./. , typeprefix [ 1 ]indname/x , typeprefix indname[ 1 ]/x , typeprefix a/[ 1 ] ]; # simple_attribute
+a [ descendants(),lbrothers(),rbrothers(),sons(),depth_first_order(),order_span_min(),order_span_max(),depth(),lower(),upper(),length(),substr(),tr(),replace(),substitute(),match(),ceil(),floor(),round(),trunc(),percnt(),name(),type_of(),id(),file(),tree_no(),address(),abs(),exp(),power(),log(),sqrt(),ln() ]; # function
+a [ * $$. as/eer , * $$. typeprefix as/eer ]; # every - attribute_path
+a [ * []/eer , * content()/a/./. , * [ 1 ]indname/x , * indname[ 1 ]/x , * a/[ 1 ] ]; # every - simple_attribute
+a [ * typeprefix []/eer , * typeprefix content()/a/./. , * typeprefix [ 1 ]indname/x , * typeprefix indname[ 1 ]/x , * typeprefix a/[ 1 ] ]; # every - typeprefix simple_attribute
+# ( expression )
+
+
+# functions with arguments (expression)
+# TODO
 
 
 
