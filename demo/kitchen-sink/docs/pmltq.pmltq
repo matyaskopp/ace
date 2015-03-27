@@ -115,9 +115,14 @@ a [ * []/eer in { * content()/a/./. , * [ 1 ]indname/x , * indname[ 1 ]/x , * a/
 a [ * typeprefix ? []/eer in { * typeprefix ? content()/a/./. , * typeprefix ? [ 1 ]indname/x , * typeprefix ? indname[ 1 ]/x , * typeprefix ? a/[ 1 ] } ]; # every - typeprefix ? simple_attribute
 # ( expression )
 
-a [(1+1 )=2];
-a [(1+1 )+0=2];
+a [ ( 1 + 1 ) = 2 ];  # @E@ ];#];#];
+a [ 2 = ( 1 + 1 ) ];  # @E@ ];#];#];
 
+a [(1+1 )+0=2]; # @E@ ];#];#];
+a [(1+1 )+(1)=2]; # @E@ ];#];#];
+a [ ( 1 + 1 ) + ( 1 + 1 ) = 2]; # @E@ ];#];#];
+a [((1+1 )=2 or 1=1)];  # @E@ ];#];#];
+a [((1+1 )=2 or 1=(1+0))];  # @E@ ];#];#];
 # functions with arguments (expression)
 # TODO
 
