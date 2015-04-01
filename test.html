@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>PMLTQ test page</title>
+<style type="text/css" media="screen">
+    #editor { 
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+</style>
+</head>
+<body>
+<script>if(window.location.protocol != "http:")alert("It is needed to ron this file using http server!\nWrite to commandline:\ncd "+window.location.pathname.split("/").slice(0, -1).join("/")+"\nhttp-server\n\nAnd go to address: localhost:8080/test.html ");</script>
+<div id="editor"></div>
+    
+
+<script src="lib/requirejs/require.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    // Tell RequireJS where ace is located
+    require.config({
+        paths: {
+            'ace': 'lib/ace'
+        }
+    });
+
+    // Load the ace module
+    require(['ace/ace'], function(ace) {
+        // Set up the editor
+        var editor = ace.edit('editor');
+        editor.setTheme('ace/theme/pmltq');
+        editor.getSession().setMode('ace/mode/pmltq');
+        
+
+
+        var client = new XMLHttpRequest();
+        client.open('GET', '../../demo/kitchen-sink/docs/pmltq.pmltq');
+        client.onreadystatechange = function() {
+          editor.setValue(client.responseText);
+        };
+        client.send();
+        editor.gotoLine(0);
+    
+        // etc...
+    });
+
+/*
+    //ace.config.set("themePath", "lib/ace/theme");
+    //ace.config.set("modePath", "lib/ace/mode");
+//    ace.config.set("basePath", "lib/ace");
+    var editor = ace.edit("editor");
+
+
+    //editor.setTheme("pmltq");
+    editor.getSession().setMode("javascript");
+    editor.setValue("#aabc\n");
+*/
+
+</script>
+
+
+
+</body>
+</html>
