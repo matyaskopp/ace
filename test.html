@@ -28,36 +28,37 @@
     });
 
     // Load the ace module
-    require(['ace/ace'], function(ace) {
+    require(['ace/ace',"ace/mode/pmltq"], function(ace) {
         // Set up the editor
         var editor = ace.edit('editor');
         editor.setTheme('ace/theme/pmltq');
-        editor.getSession().setMode('ace/mode/pmltq');
-        
+
+/************* Setting mode ***********/
+        var PmltqMode = require("ace/mode/pmltq").Mode;
+        var PMLTQMode = new PmltqMode();
+        editor.session.setMode(PMLTQMode);
+        var tags = ["child", "descendant"];
+        PMLTQMode.$highlightRules.setKeywords({"relation": tags.join("|")});
+        editor.session.bgTokenizer.start(0);
 
 
+/************* Testing event ***********/
+        editor.on('input', function() {
+            var pos = editor.session.getSelection().getCursor();
+            //alert(editor.session.getTokenAt(pos.row,pos.column));
+            console.log(editor.session.getTokenAt(pos.row,pos.column));
+            console.log(editor.session.getTokens(pos.row));
+        });
+
+/************* Loading document ***********/
         var client = new XMLHttpRequest();
         client.open('GET', '../../demo/kitchen-sink/docs/pmltq.pmltq');
         client.onreadystatechange = function() {
-          editor.setValue(client.responseText);
+          editor.setValue(client.responseText,1);
         };
         client.send();
-        editor.gotoLine(0);
-    
-        // etc...
     });
 
-/*
-    //ace.config.set("themePath", "lib/ace/theme");
-    //ace.config.set("modePath", "lib/ace/mode");
-//    ace.config.set("basePath", "lib/ace");
-    var editor = ace.edit("editor");
-
-
-    //editor.setTheme("pmltq");
-    editor.getSession().setMode("javascript");
-    editor.setValue("#aabc\n");
-*/
 
 </script>
 

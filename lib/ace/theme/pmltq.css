@@ -173,6 +173,9 @@
 .ace_rPAR, .ace_lPAR, .ace_FILTER, .ace_SEMICOLON {
   color: rgb(0,100,150);
 }
+.ace_PAR {
+  color: rgb(100,100,100);
+}
 
 .ace_KEYWORD {
   color: blue;
