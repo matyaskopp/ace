@@ -16,7 +16,7 @@
 <script>if(window.location.protocol != "http:")alert("It is needed to ron this file using http server!\nWrite to commandline:\ncd "+window.location.pathname.split("/").slice(0, -1).join("/")+"\nhttp-server\n\nAnd go to address: localhost:8080/test.html ");</script>
 <div id="editor"></div>
     
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="lib/requirejs/require.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
@@ -37,10 +37,39 @@
         var PmltqMode = require("ace/mode/pmltq").Mode;
         var PMLTQMode = new PmltqMode();
         editor.session.setMode(PMLTQMode);
-        var tags = ["child", "descendant"];
-        PMLTQMode.$highlightRules.setKeywords({"relation": tags.join("|")});
-        editor.session.bgTokenizer.start(0);
 
+/************* Setting mode - adding keywords***********/
+
+//        var tags = ["child", "descendant"];
+//        PMLTQMode.$highlightRules.setKeywords({"relation": tags.join("|")});
+//        editor.session.bgTokenizer.start(0);
+
+      $.getJSON("/pdt30.json", function(json) {
+
+          Object.keys(json.node_types).forEach(function(type) {
+            var a = json.node_types[type];
+            for (var i = a.length; i--; )
+                PMLTQMode.$highlightRules.setKeywords("TYPE."+type,a[i]);
+          });
+          
+          Object.keys(json.attributes).forEach(function(type) {
+            var a = json.attributes[type];
+            for (var i = a.length; i--; )
+                PMLTQMode.$highlightRules.setKeywords("ATTRIBUTE."+type,a[i]);
+          });
+
+          for (var i = json.relations.standard.length; i--; )
+              PMLTQMode.$highlightRules.setKeywords("RELATION.standard",json.relations.standard[i]);
+
+
+          PMLTQMode.$highlightRules.normalizeRules();
+          console.log(editor.session.$mode);
+          PMLTQMode.$tokenizer = null; // force recreation of tokenizer
+          editor.session.bgTokenizer.setTokenizer(PMLTQMode.getTokenizer(PMLTQMode.$highlightRules.getRules()));
+          editor.session.bgTokenizer.start(0);
+          console.log(editor.session.$mode);
+        });
+  
 
 /************* Testing event ***********/
         editor.on('input', function() {
@@ -51,12 +80,12 @@
         });
 
 /************* Loading document ***********/
-        var client = new XMLHttpRequest();
-        client.open('GET', '../../demo/kitchen-sink/docs/pmltq.pmltq');
-        client.onreadystatechange = function() {
-          editor.setValue(client.responseText,1);
+        var client_data = new XMLHttpRequest();
+        client_data.open('GET', '../../demo/kitchen-sink/docs/pmltq.pmltq');
+        client_data.onreadystatechange = function() {
+          editor.setValue(client_data.responseText,1);
         };
-        client.send();
+        client_data.send();
     });
 
 
