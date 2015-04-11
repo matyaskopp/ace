@@ -1,0 +1,300 @@
+{
+  "anonymous": true,
+  "title": "Prague Dependency Treebank 3.0",
+  "homepage": "https://ufal.mff.cuni.cz/pdt3.0/",
+  "doc": {
+    "value": "ExD",
+    "layer": "adata",
+    "attr": "afun",
+    "type": "a-node"
+  },
+  "node_types": {
+    "tdata": [
+      "t-node",
+      "t-root"
+    ],
+    "valency_lexicon": [
+      "v-element",
+      "v-element_alternation",
+      "v-elided",
+      "v-form",
+      "v-frame",
+      "v-node",
+      "v-parent",
+      "v-parentpos",
+      "v-recip",
+      "v-state",
+      "v-typical",
+      "v-word"
+    ],
+    "adata": [
+      "a-node",
+      "a-root"
+    ]
+  },
+  "id": "54731d105b85981c6e280000",
+  "stickers": [],
+  "attributes": {
+    "a-root": [
+      "id",
+      "s.rf",
+      "afun",
+      "ord",
+      "clause_number",
+      "sentence"
+    ],
+    "v-state": [
+      "name()",
+      "id"
+    ],
+    "v-parentpos": [
+      "name()",
+      "id"
+    ],
+    "t-root": [
+      "id",
+      "atree.rf",
+      "nodetype",
+      "deepord",
+      "mwes/id",
+      "mwes/basic-form",
+      "mwes/type",
+      "mwes/tnode.rfs",
+      "genre",
+      "sentence"
+    ],
+    "v-word": [
+      "name()",
+      "id",
+      "lemma",
+      "POS",
+      "note"
+    ],
+    "v-element_alternation": [
+      "name()",
+      "id"
+    ],
+    "v-recip": [
+      "name()",
+      "id"
+    ],
+    "v-form": [
+      "name()",
+      "id",
+      "abbrev"
+    ],
+    "v-typical": [
+      "name()",
+      "id"
+    ],
+    "a-node": [
+      "id",
+      "m/src.rf",
+      "m/w/token",
+      "m/w/no_space_after",
+      "m/w/id",
+      "m/form_change",
+      "m/form",
+      "m/lemma",
+      "m/tag",
+      "m/id",
+      "afun",
+      "is_member",
+      "is_parenthesis_root",
+      "ord",
+      "clause_number"
+    ],
+    "v-parent": [
+      "name()",
+      "id",
+      "node/id",
+      "node/num",
+      "node/tagpos14",
+      "node/tagpos3",
+      "node/form",
+      "node/case",
+      "node/tagpos2",
+      "node/tagpos5",
+      "node/agreement",
+      "node/pos",
+      "node/tagpos13",
+      "node/afun",
+      "node/neg",
+      "node/gen",
+      "node/tagpos10",
+      "node/tagpos6",
+      "node/tagpos9",
+      "node/tagpos11",
+      "node/tagpos8",
+      "node/lemma",
+      "node/tagpos12",
+      "node/tagpos7",
+      "node/tagpos4",
+      "node/tagpos15",
+      "node/inherits",
+      "node/deg",
+      "node/tagpos1"
+    ],
+    "v-frame": [
+      "name()",
+      "status",
+      "used",
+      "id",
+      "substituted_with",
+      "example",
+      "note"
+    ],
+    "v-element": [
+      "name()",
+      "id",
+      "functor",
+      "type",
+      "forms"
+    ],
+    "t-node": [
+      "id",
+      "a/lex.rf",
+      "a/aux.rf",
+      "nodetype",
+      "is_generated",
+      "t_lemma",
+      "functor",
+      "subfunctor",
+      "sentmod",
+      "quot/type",
+      "quot/set_id",
+      "is_dsp_root",
+      "is_member",
+      "is_name_of_person",
+      "is_parenthesis",
+      "is_state",
+      "gram/sempos",
+      "gram/gender",
+      "gram/number",
+      "gram/typgroup",
+      "gram/degcmp",
+      "gram/deontmod",
+      "gram/tense",
+      "gram/aspect",
+      "gram/iterativeness",
+      "gram/indeftype",
+      "gram/person",
+      "gram/numertype",
+      "gram/politeness",
+      "gram/negation",
+      "gram/diatgram",
+      "gram/factmod",
+      "tfa",
+      "deepord",
+      "discourse_special",
+      "discourse/target_node.rf",
+      "discourse/type",
+      "discourse/start_group_id",
+      "discourse/start_range",
+      "discourse/target_group_id",
+      "discourse/target_range",
+      "discourse/discourse_type",
+      "discourse/a-connectors.rf",
+      "discourse/t-connectors.rf",
+      "discourse/all_a-connectors.rf",
+      "discourse/connective",
+      "discourse_groups/id",
+      "bridging/target_node.rf",
+      "bridging/type",
+      "coref_text/target_node.rf",
+      "coref_text/type",
+      "coref_gram.rf",
+      "coref_special",
+      "compl.rf",
+      "val_frame.rf"
+    ],
+    "v-elided": [
+      "name()",
+      "id"
+    ],
+    "v-node": [
+      "name()",
+      "id",
+      "num",
+      "tagpos14",
+      "tagpos3",
+      "form",
+      "case",
+      "tagpos2",
+      "tagpos5",
+      "agreement",
+      "pos",
+      "tagpos13",
+      "afun",
+      "neg",
+      "gen",
+      "tagpos10",
+      "tagpos6",
+      "tagpos9",
+      "tagpos11",
+      "tagpos8",
+      "lemma",
+      "tagpos12",
+      "tagpos7",
+      "tagpos4",
+      "tagpos15",
+      "inherits",
+      "deg",
+      "tagpos1"
+    ]
+  },
+  "relations": {
+    "standard": [
+      "descendant",
+      "ancestor",
+      "child",
+      "sibling",
+      "parent",
+      "depth-first-precedes",
+      "depth-first-follows",
+      "order-precedes",
+      "order-follows",
+      "same-tree-as",
+      "same-document-as",
+      "member"
+    ],
+    "pml": {
+      "t-node": [
+        "a/aux.rf",
+        "a/lex.rf",
+        "bridging/target_node.rf",
+        "compl.rf",
+        "coref_gram.rf",
+        "coref_text/target_node.rf",
+        "discourse/a-connectors.rf",
+        "discourse/all_a-connectors.rf",
+        "discourse/t-connectors.rf",
+        "discourse/target_node.rf",
+        "val_frame.rf"
+      ],
+      "t-root": [
+        "atree.rf",
+        "mwes/tnode.rfs"
+      ]
+    },
+    "user": {
+      "a-node": [
+        "echild",
+        "eparent"
+      ],
+      "t-node": [
+        "a/lex.rf|a/aux.rf",
+        "echild",
+        "eparent"
+      ]
+    }
+  },
+  "description": "Train and dtest data of the Prague Dependency Treebank 3.0 (an update of PDT 2.5 and PDiT 1.0, featuring annotation of discourse relations, document genres, extended textual coreference, bridging anaphora, revised sentmod, revised grammatemes and other updates).",
+  "schemas": [
+    "adata",
+    "tdata",
+    "valency_lexicon"
+  ],
+  "name": "pdt30",
+  "access": true
+}
