@@ -4,22 +4,39 @@
 <title>PMLTQ test page</title>
 <style type="text/css" media="screen">
     #editor { 
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        width: 800px;
+        height: 600px;
     }
+.ui-menu {
+    width: 150px;
+}
 </style>
 </head>
 <body>
+
 <script>if(window.location.protocol != "http:")alert("It is needed to ron this file using http server!\nWrite to commandline:\ncd "+window.location.pathname.split("/").slice(0, -1).join("/")+"\nhttp-server\n\nAnd go to address: localhost:8080/test.html ");</script>
+
+<ul id="menu"></ul>
+<div id="queries"></div>
 <div id="editor"></div>
     
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="lib/requirejs/require.js" type="text/javascript" charset="utf-8"></script>
 
 <script>
+var queries = [ 'a-bug-4-two-succesive-filters.tq', 'a-q-08-12-08_151842.tq','a-q-09-09-09_143903.tq','t-container-test3.tq','t-LOC-DIR-preps.tq','t-q-08-12-01_163623.tq','t-q-09-03-16_172630.tq','t-rcp.tq','a-count-a-nodes.tq','a-q-09-02-16_165819.tq','a-q-09-09-11_134953.tq','t-container-test.tq','t-max-depth.tq','t-q-09-02-16_174114.tq','t-q-09-03-17_135004.tq','t-rici-1.tq','a-is-member.tq','a-q-09-02-16_170200.tq','a-tree-sizes-3.tq','t-count-t-nodes.tq','t-nodes.tq','t-q-09-02-16_174644.tq','t-q-09-09-09_104645.tq','t-tree-sizes-2.tq','a-nodes.tq','a-q-09-02-23_135541.tq','t-CM.tq','t-dative-func.tq','t-non-projective.tq','t-q-09-02-18_171439.tq','t-q-09-09-09_104820.tq','t-tree-sizes.tq','a-non-projective.tq','a-q-09-03-16_171618.tq','t-container-test2.tq','t-gram-coref-to-other-sent.tq','t-q-08-10-09_120250.tq','t-q-09-02-24_152152.tq','t-q-09-09-09_104950.tq','t-x-dependency.tq'];
+function loadQuery(editor,q){
+        var client_data = new XMLHttpRequest();
+        q= q.toString();
+        q = q.substring(q.indexOf('#')+1)
+        client_data.open('GET', '/test_data/queries/'+queries[q]);
+        client_data.onreadystatechange = function() {
+          editor.setValue(client_data.responseText,1);
+        };
+        client_data.send();
+}
+
+
     // Tell RequireJS where ace is located
     require.config({
         paths: {
@@ -32,6 +49,9 @@
         // Set up the editor
         var editor = ace.edit('editor');
         editor.setTheme('ace/theme/pmltq');
+        editor.setOption("showGutter", false);               // hides line numbers with background
+        editor.setOption("displayIndentGuides", false);        
+        editor.setOption("showPrintMargin", false);          // hides 80 char rule - dont work
 
 /************* Setting mode ***********/
         var PmltqMode = require("ace/mode/pmltq").Mode;
@@ -44,7 +64,7 @@
 //        PMLTQMode.$highlightRules.setKeywords({"relation": tags.join("|")});
 //        editor.session.bgTokenizer.start(0);
 
-      $.getJSON("/pdt30.json", function(json) {
+      $.getJSON("/test_data/schema/pdt30.json", function(json) {
 
           Object.keys(json.node_types).forEach(function(type) {
             var a = json.node_types[type];
@@ -68,8 +88,23 @@
           editor.session.bgTokenizer.setTokenizer(PMLTQMode.getTokenizer(PMLTQMode.$highlightRules.getRules()));
           editor.session.bgTokenizer.start(0);
           console.log(editor.session.$mode);
+
         });
   
+
+/************* addinq query list ***********/
+
+
+
+for(var q in queries){
+  console.log(queries[q]);
+  var a = $( '<a href="#'+q+'"></a>' );
+  $("#queries").append(a);
+  $("#queries").append(document.createTextNode(' '));
+  a.append(document.createTextNode(q));
+  a.click(function(){loadQuery(editor,this);return false;});
+}
+
 
 /************* Testing event ***********/
         editor.on('input', function() {
