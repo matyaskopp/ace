@@ -18,7 +18,9 @@
 
 <ul id="menu"></ul>
 <div id="queries"></div>
+<div id="tokens"></div>
 <div id="editor"></div>
+
     
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="lib/requirejs/require.js" type="text/javascript" charset="utf-8"></script>
@@ -41,7 +43,8 @@ function loadQuery(editor,q){
     require.config({
         paths: {
             'ace': 'lib/ace'
-        }
+        },
+        urlArgs: "bust=" + (new Date()).getTime() // disable caching
     });
 
     // Load the ace module
@@ -69,26 +72,29 @@ function loadQuery(editor,q){
           Object.keys(json.node_types).forEach(function(type) {
             var a = json.node_types[type];
             for (var i = a.length; i--; )
-                PMLTQMode.$highlightRules.setKeywords("TYPE."+type,a[i]);
+                PMLTQMode.$highlightRules.setKeywords("start","TYPE."+type,a[i]);
           });
           
           Object.keys(json.attributes).forEach(function(type) {
             var a = json.attributes[type];
             for (var i = a.length; i--; )
-                PMLTQMode.$highlightRules.setKeywords("ATTRIBUTE."+type,a[i]);
+                //var reg = a[i];
+                //console.log("REG:",reg);
+
+                PMLTQMode.$highlightRules.setKeywords(["start","columnExp"],"ATTRIBUTE."+type,a[i]);
           });
 
           for (var i = json.relations.standard.length; i--; )
-              PMLTQMode.$highlightRules.setKeywords("RELATION.standard",json.relations.standard[i]);
+              PMLTQMode.$highlightRules.setKeywords("start","RELATION.standard",json.relations.standard[i]);
 
 
           PMLTQMode.$highlightRules.normalizeRules();
-          console.log(editor.session.$mode);
           PMLTQMode.$tokenizer = null; // force recreation of tokenizer
           editor.session.bgTokenizer.setTokenizer(PMLTQMode.getTokenizer(PMLTQMode.$highlightRules.getRules()));
           editor.session.bgTokenizer.start(0);
-          console.log(editor.session.$mode);
 
+          
+          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start","columnExp"]);
         });
   
 
@@ -97,7 +103,6 @@ function loadQuery(editor,q){
 
 
 for(var q in queries){
-  console.log(queries[q]);
   var a = $( '<a href="#'+q+'"></a>' );
   $("#queries").append(a);
   $("#queries").append(document.createTextNode(' '));
@@ -113,6 +118,17 @@ for(var q in queries){
             console.log(editor.session.getTokenAt(pos.row,pos.column));
             console.log(editor.session.getTokens(pos.row));
         });
+        editor.on('changeSelection', function() {
+            var pos = editor.session.getSelection().getCursor();
+            //alert(editor.session.getTokenAt(pos.row,pos.column));
+            $("#tokens").empty();
+            $.each(editor.session.getTokens(pos.row),function(){
+                   $("#tokens").append(this.type);
+                   $("#tokens").append(" ");
+            });
+            console.log(editor.session.getTokenAt(pos.row,pos.column));
+            console.log(editor.session.getTokens(pos.row));
+        });
 
 /************* Loading document ***********/
         var client_data = new XMLHttpRequest();
@@ -121,6 +137,9 @@ for(var q in queries){
           editor.setValue(client_data.responseText,1);
         };
         client_data.send();
+
+
+console.log("MODE",editor.session.$mode);
     });
 
 
