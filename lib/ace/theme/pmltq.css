@@ -157,7 +157,10 @@
 /*my own styles*/
 
 .ace_VAR {
-  color: red;
+  color: rgb(255,0,0);
+}
+.ace_CREF {
+  color: rgb(200,55,0);
 }
 .ace_TYPE {
   color: violet;
@@ -168,7 +171,7 @@
 }
 
 .ace_ATTRIBUTE {
-  color: rgb(200,100,0);
+  color: rgb(155,130,50);
 }
 
 .ace_rPAR, .ace_lPAR, .ace_FILTER, .ace_SEMICOLON {
@@ -187,6 +190,9 @@
 
 .ace_FUNC {
   color: rgb(150,50,100);
+}
+.ace_AFUNC {
+  color: rgb(100,0,150);
 }
 .ace_PARAMS {
   color: rgb(250,100,130);

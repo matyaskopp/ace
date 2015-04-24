@@ -6,6 +6,10 @@
     #editor { 
         width: 800px;
         height: 600px;
+    }   
+ #tokens { 
+        height: 60px;
+        font-size: 12px;
     }
 .ui-menu {
     width: 150px;
@@ -27,17 +31,35 @@
 
 <script>
 var queries = [ 'a-bug-4-two-succesive-filters.tq', 'a-q-08-12-08_151842.tq','a-q-09-09-09_143903.tq','t-container-test3.tq','t-LOC-DIR-preps.tq','t-q-08-12-01_163623.tq','t-q-09-03-16_172630.tq','t-rcp.tq','a-count-a-nodes.tq','a-q-09-02-16_165819.tq','a-q-09-09-11_134953.tq','t-container-test.tq','t-max-depth.tq','t-q-09-02-16_174114.tq','t-q-09-03-17_135004.tq','t-rici-1.tq','a-is-member.tq','a-q-09-02-16_170200.tq','a-tree-sizes-3.tq','t-count-t-nodes.tq','t-nodes.tq','t-q-09-02-16_174644.tq','t-q-09-09-09_104645.tq','t-tree-sizes-2.tq','a-nodes.tq','a-q-09-02-23_135541.tq','t-CM.tq','t-dative-func.tq','t-non-projective.tq','t-q-09-02-18_171439.tq','t-q-09-09-09_104820.tq','t-tree-sizes.tq','a-non-projective.tq','a-q-09-03-16_171618.tq','t-container-test2.tq','t-gram-coref-to-other-sent.tq','t-q-08-10-09_120250.tq','t-q-09-02-24_152152.tq','t-q-09-09-09_104950.tq','t-x-dependency.tq'];
+function getQueryUrl(num){
+  if(isNaN(num)) return '../../demo/kitchen-sink/docs/pmltq.pmltq';
+  return '/test_data/queries/'+queries[num];
+}
+var editor;
 function loadQuery(editor,q){
         var client_data = new XMLHttpRequest();
         q= q.toString();
-        q = q.substring(q.indexOf('#')+1)
-        client_data.open('GET', '/test_data/queries/'+queries[q]);
+        window.history.pushState('', '', q);
+        q = getQueryUrl(q.substring(q.indexOf('#')+1))	
+        client_data.open('GET', q);
         client_data.onreadystatechange = function() {
           editor.setValue(client_data.responseText,1);
         };
         client_data.send();
 }
 
+document.onkeydown = function(e) {
+    var q = window.location.href;
+    var index=q.substring(q.indexOf('#')+1);
+    switch (e.keyCode) {
+        case 37: // left
+            if(!isNaN(index)) loadQuery(editor,q.substring(0,q.indexOf('#'))+"#"+((index-1+queries.length)%queries.length));
+            break;
+        case 39: // right
+            if(!isNaN(index)) loadQuery(editor,q.substring(0,q.indexOf('#'))+"#"+((index-0+1)%queries.length)); // avoiding string concatenation
+            break;
+    }
+};
 
     // Tell RequireJS where ace is located
     require.config({
@@ -50,7 +72,7 @@ function loadQuery(editor,q){
     // Load the ace module
     require(['ace/ace',"ace/mode/pmltq"], function(ace) {
         // Set up the editor
-        var editor = ace.edit('editor');
+        editor = ace.edit('editor');
         editor.setTheme('ace/theme/pmltq');
         editor.setOption("showGutter", false);               // hides line numbers with background
         editor.setOption("displayIndentGuides", false);        
@@ -75,14 +97,26 @@ function loadQuery(editor,q){
                 PMLTQMode.$highlightRules.setKeywords("start","TYPE."+type,a[i]);
           });
           
+/*
           Object.keys(json.attributes).forEach(function(type) {
             var a = json.attributes[type];
             for (var i = a.length; i--; )
                 //var reg = a[i];
                 //console.log("REG:",reg);
 
-                PMLTQMode.$highlightRules.setKeywords(["start","columnExp"],"ATTRIBUTE."+type,a[i]);
+                PMLTQMode.$highlightRules.setKeywords(["start"],"ATTRIBUTE."+type,a[i]);
           });
+*/
+          Object.keys(json.attributes).forEach(function(type) {
+            var a = json.attributes[type];
+            for (var i = a.length; i--; )
+                //var reg = a[i];
+                //console.log("REG:",reg);
+
+                PMLTQMode.$highlightRules.addAtributes(type,a[i]);
+          });
+          PMLTQMode.$highlightRules.addDefaultPopRule("step");
+
 
           for (var i = json.relations.standard.length; i--; )
               PMLTQMode.$highlightRules.setKeywords("start","RELATION.standard",json.relations.standard[i]);
@@ -94,7 +128,7 @@ function loadQuery(editor,q){
           editor.session.bgTokenizer.start(0);
 
           
-          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start","columnExp"]);
+          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start"]);
         });
   
 
@@ -131,13 +165,16 @@ for(var q in queries){
         });
 
 /************* Loading document ***********/
+/*
         var client_data = new XMLHttpRequest();
         client_data.open('GET', '../../demo/kitchen-sink/docs/pmltq.pmltq');
         client_data.onreadystatechange = function() {
           editor.setValue(client_data.responseText,1);
         };
         client_data.send();
+*/
 
+        loadQuery(editor,window.location.href);
 
 console.log("MODE",editor.session.$mode);
     });
