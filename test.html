@@ -31,6 +31,11 @@
 
 <script>
 var queries = [ 'a-bug-4-two-succesive-filters.tq', 'a-q-08-12-08_151842.tq','a-q-09-09-09_143903.tq','t-container-test3.tq','t-LOC-DIR-preps.tq','t-q-08-12-01_163623.tq','t-q-09-03-16_172630.tq','t-rcp.tq','a-count-a-nodes.tq','a-q-09-02-16_165819.tq','a-q-09-09-11_134953.tq','t-container-test.tq','t-max-depth.tq','t-q-09-02-16_174114.tq','t-q-09-03-17_135004.tq','t-rici-1.tq','a-is-member.tq','a-q-09-02-16_170200.tq','a-tree-sizes-3.tq','t-count-t-nodes.tq','t-nodes.tq','t-q-09-02-16_174644.tq','t-q-09-09-09_104645.tq','t-tree-sizes-2.tq','a-nodes.tq','a-q-09-02-23_135541.tq','t-CM.tq','t-dative-func.tq','t-non-projective.tq','t-q-09-02-18_171439.tq','t-q-09-09-09_104820.tq','t-tree-sizes.tq','a-non-projective.tq','a-q-09-03-16_171618.tq','t-container-test2.tq','t-gram-coref-to-other-sent.tq','t-q-08-10-09_120250.tq','t-q-09-02-24_152152.tq','t-q-09-09-09_104950.tq','t-x-dependency.tq'];
+function highlightVariables(vars){
+  $(".ace_VAR_H").removeClass('ace_VAR_H');
+  for(var i in vars) $(".ace_"+vars[i]).addClass('ace_VAR_H');
+}
+
 function getQueryUrl(num){
   if(isNaN(num)) return '../../demo/kitchen-sink/docs/pmltq.pmltq';
   return '/test_data/queries/'+queries[num];
@@ -70,13 +75,20 @@ document.onkeydown = function(e) {
     });
 
     // Load the ace module
-    require(['ace/ace',"ace/mode/pmltq"], function(ace) {
+    require(['ace/ace',"ace/mode/pmltq","ace/ext/language_tools"], function(ace) {
         // Set up the editor
         editor = ace.edit('editor');
         editor.setTheme('ace/theme/pmltq');
-        editor.setOption("showGutter", false);               // hides line numbers with background
-        editor.setOption("displayIndentGuides", false);        
-        editor.setOption("showPrintMargin", false);          // hides 80 char rule - dont work
+        editor.setOptions({
+                 showGutter: false, // hides line numbers with background
+                 displayIndentGuides: false,
+                 showPrintMargin: false,// hides 80 char rule - dont work
+                     //completing
+                 enableBasicAutocompletion: true,
+                 enableSnippets: true,
+                 enableLiveAutocompletion: true
+        });
+
 
 /************* Setting mode ***********/
         var PmltqMode = require("ace/mode/pmltq").Mode;
@@ -91,44 +103,68 @@ document.onkeydown = function(e) {
 
       $.getJSON("/test_data/schema/pdt30.json", function(json) {
 
+          var keywords = {};
           Object.keys(json.node_types).forEach(function(type) {
             var a = json.node_types[type];
+            type+=".TYPE"
+            keywords[type]=a.join("|") + (keywords[type] ? "|"+keywords[type] : "" );
             for (var i = a.length; i--; )
-                PMLTQMode.$highlightRules.setKeywords("start","TYPE."+type,a[i]);
+                PMLTQMode.$highlightRules.addNewRule("start",type,a[i]);
           });
           
-/*
+
           Object.keys(json.attributes).forEach(function(type) {
             var a = json.attributes[type];
-            for (var i = a.length; i--; )
-                //var reg = a[i];
-                //console.log("REG:",reg);
-
-                PMLTQMode.$highlightRules.setKeywords(["start"],"ATTRIBUTE."+type,a[i]);
-          });
-*/
-          Object.keys(json.attributes).forEach(function(type) {
-            var a = json.attributes[type];
-            for (var i = a.length; i--; )
-                //var reg = a[i];
-                //console.log("REG:",reg);
-
-                PMLTQMode.$highlightRules.addAtributes(type,a[i]);
+            keywords[type]=a.join("|") + (keywords[type] ? "|"+keywords[type] : "" );
+            for (var i = a.length; i--; ) PMLTQMode.$highlightRules.addAtributes(type,a[i]);
           });
           PMLTQMode.$highlightRules.addDefaultPopRule("step");
 
 
-          for (var i = json.relations.standard.length; i--; )
-              PMLTQMode.$highlightRules.setKeywords("start","RELATION.standard",json.relations.standard[i]);
+          var relations = [[json.relations,"RELATION"]];
+          var r;
+          while( r = relations.shift()) {
+            var data = r[0];
+            var type = r[1];
+            Object.keys(data).forEach(function(t2) {
+              var a = data[t2];
+              t2 = type+"."+t2;
+              if(Array.isArray(a)){
+                keywords[t2]=a.join("|") + (keywords[t2] ? "|"+keywords[t2] : "" );
+                for (var i = a.length; i--; ) PMLTQMode.$highlightRules.addAtributes(t2,a[i]);
+              } else {
+                 relations.push([a,t2]);
+              }
+            });
+          }
+/*
+          {
+            var a=json.relations.standard;
+            type="RELATION.standard";
+           // keywords[type]=a.join("|") + (keywords[type] ? "|"+keywords[type] : "" );
+            for (var i = json.relations.standard.length; i--; )
+              PMLTQMode.$highlightRules.addNewRule("start",type,a[i]);
+          }
 
-
+          {
+            var a=json.relations.standard;
+            type="RELATION.standard";
+           // keywords[type]=a.join("|") + (keywords[type] ? "|"+keywords[type] : "" );
+            for (var i = json.relations.standard.length; i--; )
+              PMLTQMode.$highlightRules.addNewRule("start",type,a[i]);
+          }
+*/
+          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start"]);
+console.log("keywords",keywords);          
+          PMLTQMode.$highlightRules.addKeywords(keywords);
+console.log("$keywords",PMLTQMode.$highlightRules.$keywords);          
           PMLTQMode.$highlightRules.normalizeRules();
           PMLTQMode.$tokenizer = null; // force recreation of tokenizer
           editor.session.bgTokenizer.setTokenizer(PMLTQMode.getTokenizer(PMLTQMode.$highlightRules.getRules()));
           editor.session.bgTokenizer.start(0);
 
           
-          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start"]);
+          
         });
   
 
@@ -146,22 +182,24 @@ for(var q in queries){
 
 
 /************* Testing event ***********/
+/*
         editor.on('input', function() {
             var pos = editor.session.getSelection().getCursor();
             //alert(editor.session.getTokenAt(pos.row,pos.column));
             console.log(editor.session.getTokenAt(pos.row,pos.column));
             console.log(editor.session.getTokens(pos.row));
         });
+*/
         editor.on('changeSelection', function() {
             var pos = editor.session.getSelection().getCursor();
             //alert(editor.session.getTokenAt(pos.row,pos.column));
+            var token=editor.session.getTokenAt(pos.row,pos.column);
+            if(token && token.type.match(/VAR\./)) highlightVariables(token.type.match(/var_[^\.]*/))
             $("#tokens").empty();
             $.each(editor.session.getTokens(pos.row),function(){
                    $("#tokens").append(this.type);
                    $("#tokens").append(" ");
             });
-            console.log(editor.session.getTokenAt(pos.row,pos.column));
-            console.log(editor.session.getTokens(pos.row));
         });
 
 /************* Loading document ***********/
@@ -175,8 +213,6 @@ for(var q in queries){
 */
 
         loadQuery(editor,window.location.href);
-
-console.log("MODE",editor.session.$mode);
     });
 
 

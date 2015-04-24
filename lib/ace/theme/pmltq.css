@@ -159,6 +159,9 @@
 .ace_VAR {
   color: rgb(255,0,0);
 }
+.ace_VAR_H {
+  background-color: rgb(255,255,100);
+}
 .ace_CREF {
   color: rgb(200,55,0);
 }
