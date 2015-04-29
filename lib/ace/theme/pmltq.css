@@ -237,6 +237,9 @@
 .ace_OCCURRENCES {
   color: rgb(80,0,140);
 }
-
+.ace_UNKNOWN {
+  color: #fff;
+  background: #000;
+}
 
 

@@ -102,7 +102,7 @@ document.onkeydown = function(e) {
 //        editor.session.bgTokenizer.start(0);
 
       $.getJSON("/test_data/schema/pdt30.json", function(json) {
-
+          
           var keywords = {};
           Object.keys(json.node_types).forEach(function(type) {
             var a = json.node_types[type];
@@ -116,7 +116,9 @@ document.onkeydown = function(e) {
           Object.keys(json.attributes).forEach(function(type) {
             var a = json.attributes[type];
             keywords[type]=a.join("|") + (keywords[type] ? "|"+keywords[type] : "" );
-            for (var i = a.length; i--; ) PMLTQMode.$highlightRules.addAtributes(type,a[i]);
+            for (var i = a.length; i--; ) {              
+              PMLTQMode.$highlightRules.addAtributes(type,a[i]);
+            }
           });
           PMLTQMode.$highlightRules.addDefaultPopRule("step");
 
@@ -154,11 +156,11 @@ document.onkeydown = function(e) {
               PMLTQMode.$highlightRules.addNewRule("start",type,a[i]);
           }
 */
-          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start"]);
-console.log("keywords",keywords);          
-          PMLTQMode.$highlightRules.addKeywords(keywords);
-console.log("$keywords",PMLTQMode.$highlightRules.$keywords);          
-          PMLTQMode.$highlightRules.normalizeRules();
+//          PMLTQMode.$highlightRules.setDefaultSpaceToken(["start"]);
+//          PMLTQMode.$highlightRules.addUnknownToken(["start"]);
+
+          PMLTQMode.$highlightRules.addKeywords(keywords);          
+//          PMLTQMode.$highlightRules.normalizeRules(); not needed        
           PMLTQMode.$tokenizer = null; // force recreation of tokenizer
           editor.session.bgTokenizer.setTokenizer(PMLTQMode.getTokenizer(PMLTQMode.$highlightRules.getRules()));
           editor.session.bgTokenizer.start(0);
