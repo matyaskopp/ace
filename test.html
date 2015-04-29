@@ -89,7 +89,7 @@ document.onkeydown = function(e) {
                  enableLiveAutocompletion: true
         });
 
-
+        editor.$blockScrolling = Infinity;
 /************* Setting mode ***********/
         var PmltqMode = require("ace/mode/pmltq").Mode;
         var PMLTQMode = new PmltqMode();
